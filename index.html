@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jorge Torres · Desarrollo de Sistemas</title>
+<meta name="description" content="Jorge Torres — Coordinador de Desarrollo de Sistemas. Full stack PHP, Laravel, Livewire, MySQL y SQL Server. Buenos Aires, Argentina.">
+<meta property="og:title" content="Jorge Torres · Desarrollo de Sistemas">
+<meta property="og:description" content="Full stack PHP · Laravel · Livewire · MySQL y SQL Server. Sistemas de gestión e integraciones.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230f766e'/><text x='32' y='42' font-family='Arial' font-weight='700' font-size='28' fill='white' text-anchor='middle'>JT</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f8fafb; --surface:#ffffff; --ink:#0f172a; --muted:#5b6678; --line:#e3e8ee;
+    --accent:#0f9488; --accent-2:#0ea5e9; --accent-soft:#e6f6f4; --chip:#f1f5f9;
+    --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .mono{font-family:"JetBrains Mono",Consolas,monospace}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:10;background:rgba(248,250,251,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-weight:800;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:10px}
+  .logo i{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-style:normal;font-size:13px}
+  nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-size:15px;font-weight:600;color:var(--muted)}
+  nav ul a{text-decoration:none}
+  nav ul a:hover{color:var(--accent)}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:96px 0 88px}
+  .hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(#d4dde6 1.1px,transparent 1.1px);background-size:22px 22px;
+    -webkit-mask-image:radial-gradient(600px 360px at 80% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(600px 360px at 80% 40%,#000 20%,transparent 75%)}
+  .hero::after{content:"";position:absolute;right:-120px;top:-80px;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle,rgba(15,148,136,.16),rgba(14,165,233,.08) 45%,transparent 70%)}
+  .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.25fr .9fr;gap:48px;align-items:center}
+  .tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--accent);background:var(--accent-soft);padding:6px 12px;border-radius:999px;font-weight:600}
+  .tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  h1{font-size:clamp(40px,6vw,64px);line-height:1.04;letter-spacing:-.035em;margin:18px 0 0;font-weight:800}
+  h1 span{background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:20px;color:var(--muted);margin:20px 0 0;max-width:560px}
+  .cta{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;transition:transform .15s,box-shadow .15s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.primary{background:var(--ink);color:#fff;box-shadow:var(--shadow)}
+  .btn.ghost{background:var(--surface);border:1px solid var(--line)}
+  .btn svg{width:18px;height:18px}
+
+  /* tarjeta de código */
+  .card-code{background:#0f172a;border-radius:16px;box-shadow:0 20px 50px rgba(15,23,42,.18);overflow:hidden;font-size:14px}
+  .card-code .bar{display:flex;gap:7px;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .card-code .bar i{width:11px;height:11px;border-radius:50%;background:#334155}
+  .card-code .bar i:nth-child(1){background:#f87171}.card-code .bar i:nth-child(2){background:#fbbf24}.card-code .bar i:nth-child(3){background:#34d399}
+  .card-code .bar span{margin-left:10px;color:#64748b;font-size:12px}
+  .card-code pre{margin:0;padding:20px 22px 24px;color:#cbd5e1;line-height:1.75;white-space:pre;overflow-x:auto}
+  .k{color:#f472b6}.f{color:#5eead4}.s{color:#fcd34d}.c{color:#64748b}.v{color:#93c5fd}
+
+  /* secciones */
+  section{padding:80px 0}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  h2{font-size:clamp(28px,3.4vw,38px);letter-spacing:-.025em;line-height:1.15;margin:10px 0 0}
+  .sub{color:var(--muted);max-width:640px;margin-top:12px}
+
+  /* sobre mí */
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .about p{margin:0 0 16px;color:#334155}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .stat b{display:block;font-size:30px;letter-spacing:-.03em}
+  .stat span{font-size:14px;color:var(--muted)}
+
+  /* stack */
+  .stack{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
+  .group{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .group h3{font-size:15px;margin:0 0 14px;color:var(--muted);font-weight:700}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-size:14px;font-weight:600;background:var(--chip);border-radius:8px;padding:6px 11px}
+
+  /* qué hago */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+  .feat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;transition:box-shadow .2s,transform .2s}
+  .feat:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+  .ico{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent);margin-bottom:16px}
+  .ico svg{width:22px;height:22px}
+  .feat h3{margin:0 0 8px;font-size:19px;letter-spacing:-.01em}
+  .feat p{margin:0;color:var(--muted);font-size:15.5px}
+
+  /* experiencia */
+  .timeline{margin-top:40px;position:relative;padding-left:28px}
+  .timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--accent),var(--accent-2),var(--line))}
+  .job{position:relative;padding:0 0 34px}
+  .job::before{content:"";position:absolute;left:-28px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+  .job .when{font-size:13px;color:var(--muted)}
+  .job h3{margin:4px 0 2px;font-size:20px;letter-spacing:-.01em}
+  .job .where{color:var(--accent);font-weight:600;font-size:15px}
+  .job p{margin:8px 0 0;color:#334155;max-width:720px;font-size:16px}
+
+  /* proyectos */
+  .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:36px}
+  .proj{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;display:flex;flex-direction:column}
+  .proj .num{font-size:13px;color:var(--accent);font-weight:600}
+  .proj h3{margin:6px 0 8px;font-size:20px;letter-spacing:-.01em}
+  .proj p{margin:0 0 18px;color:var(--muted);font-size:15.5px;flex:1}
+  .proj .chips .chip{font-size:12.5px;background:var(--accent-soft);color:#0f5f58}
+  .note{margin-top:18px;font-size:14px;color:var(--muted)}
+
+  /* contacto */
+  .contact{background:var(--ink);color:#e2e8f0;border-radius:24px;padding:56px;position:relative;overflow:hidden}
+  .contact::after{content:"";position:absolute;right:-100px;bottom:-140px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(15,148,136,.35),transparent 65%)}
+  .contact h2{color:#fff}
+  .contact .sub{color:#94a3b8}
+  .contact .cta{position:relative;z-index:1}
+  .contact .btn.primary{background:#fff;color:var(--ink)}
+  .contact .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.2)}
+
+  footer{padding:36px 0 48px;color:var(--muted);font-size:14px}
+  footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  /* animación de entrada */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+  /* evita que el bloque de código ensanche la grilla en pantallas chicas */
+  .hero .wrap > *,.about > *{min-width:0}
+
+  /* responsive */
+  @media (max-width:900px){
+    .hero .wrap,.about{grid-template-columns:1fr}
+    .stack{grid-template-columns:repeat(2,1fr)}
+    .grid3{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    body{font-size:16px}
+    .wrap{padding:0 16px}
+    nav ul{display:none}
+    .hero{padding:56px 0 48px}
+    .lead{font-size:18px}
+    section{padding:56px 0}
+    .stack,.grid3,.projects{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(3,1fr);gap:8px}
+    .stat{padding:14px}.stat b{font-size:24px}
+    .contact{padding:36px 22px;border-radius:18px}
+    .card-code{font-size:12.5px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#inicio"><i>JT</i>Jorge Torres</a>
+    <ul>
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#experiencia">Experiencia</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <span class="tag">Coordinador de Desarrollo de Sistemas</span>
+      <h1>Sistemas que funcionan.<br><span>Datos en orden.</span></h1>
+      <p class="lead">Soy Jorge Torres, desarrollador full stack PHP desde 2019. Construyo sistemas de gestión e integraciones con Laravel, Livewire, MySQL y SQL Server.</p>
+      <div class="cta">
+        <a class="btn primary" href="#proyectos">Ver proyectos</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/jorge-torres-php-laravel-livewire" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <div class="card-code mono" aria-hidden="true">
+      <div class="bar"><i></i><i></i><i></i><span>Sistema.php</span></div>
+<pre><span class="k">class</span> <span class="f">Sistema</span>
+{
+    <span class="k">public function</span> <span class="f">integrar</span>(<span class="f">Datos</span> <span class="v">$datos</span>)
+    {
+        <span class="k">return</span> <span class="v">$datos</span>
+            -&gt;<span class="f">normalizar</span>()
+            -&gt;<span class="f">validar</span>()
+            -&gt;<span class="f">guardar</span>(<span class="s">'mysql'</span>, <span class="s">'sqlsrv'</span>);
+    }
+}
+
+<span class="c">// Laravel · Livewire · APIs REST</span></pre>
+    </div>
+  </div>
+</header>
+
+<section id="sobre-mi">
+  <div class="wrap about">
+    <div class="reveal">
+      <div class="eyebrow">Sobre mí</div>
+      <h2>Del dato a la pantalla, sin perder el orden.</h2>
+    </div>
+    <div class="reveal">
+      <p>Hoy coordino un área de desarrollo de sistemas en el sector salud, donde además sigo programando todos los días.</p>
+      <p>Mi fuerte son las bases de datos: diseño de tablas, consultas, optimización e integración entre MySQL y SQL Server. Sobre esa base construyo aplicaciones full stack con Laravel y Livewire, y sumo Python cuando el proyecto lo pide.</p>
+      <p>Antes fui cofundador de Heurística IT y trabajé como programador independiente. Me importa que las cosas funcionen bien y que el equipo avance junto.</p>
+      <div class="stats">
+        <div class="stat"><b>7+</b><span>años programando</span></div>
+        <div class="stat"><b>2+</b><span>años coordinando</span></div>
+        <div class="stat"><b>2</b><span>motores SQL</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Stack</div>
+      <h2>Con qué trabajo</h2>
+    </div>
+    <div class="stack">
+      <div class="group reveal"><h3>Backend</h3><div class="chips"><span class="chip">PHP</span><span class="chip">Laravel</span><span class="chip">Livewire</span><span class="chip">Python</span><span class="chip">APIs REST</span></div></div>
+      <div class="group reveal"><h3>Bases de datos</h3><div class="chips"><span class="chip">MySQL</span><span class="chip">SQL Server</span><span class="chip">Modelado</span><span class="chip">Optimización</span></div></div>
+      <div class="group reveal"><h3>Frontend</h3><div class="chips"><span class="chip">JavaScript</span><span class="chip">Tailwind</span><span class="chip">Alpine.js</span><span class="chip">Bootstrap</span><span class="chip">Vite</span><span class="chip">PWA</span></div></div>
+      <div class="group reveal"><h3>Infraestructura</h3><div class="chips"><span class="chip">Windows Server</span><span class="chip">IIS</span><span class="chip">Linux</span><span class="chip">Git</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="que-hago">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Qué hago</div>
+      <h2>Sistemas que se usan todos los días</h2>
+    </div>
+    <div class="grid3">
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1a6 6 0 0 1 12 0v1"/><path d="M16 3.5a3 3 0 0 1 0 7"/><path d="M21 21v-1a5 5 0 0 0-3-4.6"/></svg></div>
+        <h3>Coordinación</h3>
+        <p>Planificación, prioridades y definición técnica de los proyectos del equipo.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3>Sistemas de gestión</h3>
+        <p>Paneles, reportes y circuitos de validación con Laravel y Livewire.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/><path d="M7 12h10M12 7v10"/></svg></div>
+        <h3>Integraciones</h3>
+        <p>APIs REST y sincronización entre MySQL y SQL Server, con normalización de datos.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+        <h3>Apps PWA y móviles</h3>
+        <p>Aplicaciones conectadas al backend con autenticación por tokens firmados.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3>Comunicaciones</h3>
+        <p>Avisos y notificaciones automáticas por WhatsApp y email.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></div>
+        <h3>Puesta en producción</h3>
+        <p>Despliegue y mantenimiento en Windows Server / IIS y Linux.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experiencia" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Experiencia</div>
+      <h2>Mi recorrido</h2>
+    </div>
+    <div class="timeline">
+      <div class="job reveal">
+        <div class="when mono">2024 — hoy</div>
+        <h3>Coordinador de Desarrollo de Sistemas</h3>
+        <div class="where">Empresa del sector salud</div>
+        <p>Coordino el área de desarrollo: planificación, prioridades y definición técnica, sin dejar de programar. Plataformas de gestión, integraciones entre bases de datos, APIs y apps móviles.</p>
+      </div>
+      <div class="job reveal">
+        <div class="when mono">2022 — 2024</div>
+        <h3>Programador Full Stack PHP</h3>
+        <div class="where">Empresa del sector salud</div>
+        <p>Desarrollo de módulos de gestión con Laravel y Livewire, diseño de bases de datos MySQL e integraciones con otros sistemas.</p>
+      </div>
+      <div class="job reveal">
+        <div class="when mono">2022 — 2024</div>
+        <h3>Cofundador y Desarrollador PHP</h3>
+        <div class="where">Heurística IT</div>
+        <p>Desarrollo de software a medida para clientes: relevamiento, propuesta técnica y puesta en marcha de los proyectos.</p>
+      </div>
+      <div class="job reveal">
+        <div class="when mono">2019 — 2022</div>
+        <h3>Programador web</h3>
+        <div class="where">Independiente</div>
+        <p>Sitios y sistemas web a medida con PHP y MySQL, paneles de administración y mantenimiento de sistemas existentes.</p>
+      </div>
+      <div class="job reveal" style="padding-bottom:0">
+        <div class="when mono">Formación</div>
+        <h3>Técnico Superior en Comunicaciones</h3>
+        <div class="where">Carrera terciaria · Córdoba, Argentina</div>
+        <p>Formación de 3 años con orientación tecnológica. Inglés técnico.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proyectos">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Proyectos</div>
+      <h2>Algunos de los sistemas que desarrollé</h2>
+      <p class="sub">Son sistemas internos, así que los describo sin datos ni código.</p>
+    </div>
+    <div class="projects">
+      <div class="proj reveal">
+        <div class="num mono">01</div>
+        <h3>Plataforma de validación de prestaciones</h3>
+        <p>Plataforma web para que los prestadores validen prestaciones en línea, con control de copagos e historial de cambios.</p>
+        <div class="chips"><span class="chip">Laravel</span><span class="chip">Livewire</span><span class="chip">MySQL</span><span class="chip">SQL Server</span></div>
+      </div>
+      <div class="proj reveal">
+        <div class="num mono">02</div>
+        <h3>App para afiliados (PWA y móvil)</h3>
+        <p>Aplicación progresiva y móvil conectada al backend, con autenticación por tokens firmados (HMAC) entre la app y la plataforma web.</p>
+        <div class="chips"><span class="chip">PWA</span><span class="chip">PHP</span><span class="chip">APIs REST</span><span class="chip">HMAC</span></div>
+      </div>
+      <div class="proj reveal">
+        <div class="num mono">03</div>
+        <h3>Integración de datos entre sistemas</h3>
+        <p>Sincronización y normalización de datos entre bases MySQL y SQL Server, expuestos mediante APIs REST.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">PHP</span><span class="chip">SQL Server</span><span class="chip">MySQL</span></div>
+      </div>
+      <div class="proj reveal">
+        <div class="num mono">04</div>
+        <h3>Comunicaciones automatizadas</h3>
+        <p>Envío automático de avisos y notificaciones por WhatsApp y email, integrado a los sistemas de gestión.</p>
+        <div class="chips"><span class="chip">Laravel</span><span class="chip">Colas</span><span class="chip">WhatsApp</span><span class="chip">Email</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" style="padding-top:20px">
+  <div class="wrap">
+    <div class="contact reveal">
+      <div class="eyebrow" style="color:#5eead4">Contacto</div>
+      <h2>¿Hablamos?</h2>
+      <p class="sub">Me podés encontrar en LinkedIn o ver más en GitHub.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://www.linkedin.com/in/jorge-torres-php-laravel-livewire" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn ghost" href="https://github.com/jorgelt87-git" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="y">2026</span> Jorge Torres · Buenos Aires, Argentina</span>
+    <span class="mono">hecho con HTML y CSS</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
